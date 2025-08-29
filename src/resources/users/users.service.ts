@@ -7,6 +7,7 @@ import { MediaFiles } from 'src/entities/media-files';
 import { PhotoValidator } from 'src/helpers/photos-validator-helper';
 import { FileHelper } from 'src/helpers/file-helper';
 import { UserRole } from 'src/entities/enums/role.enum';
+import { ChangeRoleDTO } from './dto/change-role.dto';
 
 @Injectable()
 export class UsersService {
@@ -56,23 +57,14 @@ export class UsersService {
     return { message: "user Deleted" }
   }
 
-  async addAdmin(id:number){
+  async chageRoles(id:number, dto: ChangeRoleDTO){
   const user = await this.userRepository.findOne({where:{id}})
     if(!user){
       throw new NotFoundException('User not found')
     }
-    user.roles = UserRole.ADMIN
+    user.roles = dto.role
     return this.userRepository.save(user)
-  }
 
-
-  async removeAdmin(id:number){
-    const user = await this.userRepository.findOne({where:{id}})
-    if(!user){
-      throw new NotFoundException('User not found')
-    }
-    user.roles = UserRole.USER
-    return this.userRepository.save(user)
   }
 
 
