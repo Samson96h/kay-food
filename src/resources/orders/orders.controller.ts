@@ -4,6 +4,7 @@ import { AuthGuard } from 'src/guards/auth.guard';
 import { Roles, RolesGuard } from 'src/guards/roles.guard';
 import { OrderDto } from './dto/create-order.dto';
 import { UserRole } from 'src/entities/enums/role.enum';
+import { AuthUser } from 'src/decorators/auth-user.tecorator';
 
 @UseGuards(AuthGuard,RolesGuard)
 @Controller('orders')
@@ -23,8 +24,7 @@ export class OrdersController {
   }
 
   @Get('my')
-  async getMyOrders(@Req() req: any) {
-    const user = req.user;
+  async getMyOrders(@AuthUser() user: any) {
     return this.ordersService.findMyOrders(user.id);
   }
 

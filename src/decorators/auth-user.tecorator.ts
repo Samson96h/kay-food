@@ -4,5 +4,5 @@ export const AuthUser = createParamDecorator((field: string, context: ExecutionC
     
     const request = context.switchToHttp().getRequest()
 
-    return field ? request().user[field] : request.user
+    return field ? request.user?.[field] : request.user;
 })
