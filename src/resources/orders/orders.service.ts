@@ -41,60 +41,42 @@ export class OrdersService {
       }
 
       let ingredients: Ingredient[] = [];
-      if (item.ingredientIds) {
+      if (item.ingredientIds?.length) {
         ingredients = await this.ingredientRepository.findBy({
           id: In(item.ingredientIds),
         });
-
         if (ingredients.length !== item.ingredientIds.length) {
           throw new NotFoundException('One or more ingredients not found');
         }
       }
 
       const productPrice = Number(product.price);
-      const ingredientCost = ingredients.reduce((sum, ing) => sum + Number(ing.price), 0);
+      const ingredientCost = ingredients.reduce(
+        (sum, ing) => sum + Number(ing.price),
+        0,
+      );
       const itemPrice = (productPrice + ingredientCost) * item.quantity;
 
       const orderItem = this.orderItemRepository.create({
         order,
         product,
-        quantity: item.quantity,
         ingredients,
+        quantity: item.quantity,
         price: itemPrice,
       });
 
       order.items.push(orderItem);
     }
 
-
-    let totalPrice = 0;
-    for (const orderItem of order.items) {
-      const price = Number(orderItem.product.price);
-      const quantity = Number(orderItem.quantity);
-
-      if (isNaN(price) || isNaN(quantity)) {
-        throw new BadRequestException('Incorrect price or quantity');
-      }
-
-      let ingredientCost = 0;
-      if (orderItem.ingredients) {
-        ingredientCost = orderItem.ingredients.reduce(
-          (sum, ing) => sum + Number(ing.price),
-          0,
-        );
-      }
-
-      totalPrice += (price + ingredientCost) * quantity;
-    }
-
-    order.totalPrice = totalPrice;
+    order.totalPrice = order.items.reduce((sum, i) => sum + i.price, 0);
 
     return await this.orderRepository.save(order);
   }
 
-  async findMyOrders(user: User): Promise<Order[]> {
+
+  async findMyOrders(id: number): Promise<Order[]> {
     return await this.orderRepository.find({
-      where: { user: { id: user.id } },
+      where: { user: { id } },
       relations: ['items.product', 'items.ingredients'],
     });
   }
@@ -102,7 +84,7 @@ export class OrdersService {
 
   async findAll(): Promise<Order[]> {
     return await this.orderRepository.find({
-      relations: ['user', 'items', 'items.product', 'items.ingredients'],
+      relations: ['user','items.product', 'items.ingredients'],
     });
   }
 
@@ -112,7 +94,8 @@ export class OrdersService {
       throw new NotFoundException('Order not found');
     }
     await this.orderRepository.remove(order);
-    return { message: 'Order successfully deleted'
+    return {
+      message: 'Order successfully deleted'
+    }
   }
-}
 }

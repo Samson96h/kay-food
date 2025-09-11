@@ -7,6 +7,7 @@ import { Roles, RolesGuard } from 'src/guards/roles.guard';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { CreateIngredientDTO } from './dto/create-ingredient.dto';
+import { IdDTO } from 'src/dto/id-param.dto';
 
 
 @UseGuards(AuthGuard, RolesGuard)
@@ -30,8 +31,8 @@ export class ProductsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
+  async findOne(@Param() param: IdDTO) {
+    return this.productsService.findOne(param.id);
   }
 
   @Roles(UserRole.ADMIN, UserRole.USER)
@@ -48,8 +49,8 @@ export class ProductsController {
 
   @Roles(UserRole.ADMIN)
   @Delete(":id")
-  async deleteProduct(@Param('id') id: string) {
-    return this.productsService.removeProduct(+id)
+  async deleteProduct(@Param() param: IdDTO) {
+    return this.productsService.removeProduct(param.id);
   }
   @Roles(UserRole.ADMIN)
   @Post('add/ingredient')

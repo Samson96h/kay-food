@@ -25,7 +25,7 @@ export class OrdersController {
   @Get('my')
   async getMyOrders(@Req() req: any) {
     const user = req.user;
-    return this.ordersService.findMyOrders(user);
+    return this.ordersService.findMyOrders(user.id);
   }
 
   @Roles(UserRole.ADMIN)

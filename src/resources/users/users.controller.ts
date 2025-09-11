@@ -7,6 +7,7 @@ import { UserRole } from 'src/entities/enums/role.enum';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { OwnerCheckGuard } from 'src/guards/owner-check-guard';
 import { ChangeRoleDTO } from './dto/change-role.dto';
+import { IdDTO } from 'src/dto/id-param.dto';
 
 
 
@@ -20,11 +21,11 @@ export class UsersController {
   @UseGuards(OwnerCheckGuard)
   @UseInterceptors(FilesInterceptor('photo'))
   async updateCat(
-    @Param('id') id: number,
+    @Param() param: IdDTO,
     @Body() dto: UpdateUserDTO,
     @UploadedFiles() files?: Express.Multer.File[],
   ) {
-    return this.usersService.updateUsersData(id, dto, files);
+    return this.usersService.updateUsersData(param.id, dto, files);
   }
 
   @Roles(UserRole.ADMIN)
@@ -35,14 +36,14 @@ export class UsersController {
 
   @Roles(UserRole.ADMIN)
   @Post(':id')
-  async addAdmin(@Param('id') id: number, @Body() dto: ChangeRoleDTO) {
-    return this.usersService.chageRoles(id, dto);
+  async addAdmin(@Param() param: IdDTO, @Body() dto: ChangeRoleDTO) {
+    return this.usersService.chageRoles(param.id, dto);
   }
 
   @Roles(UserRole.ADMIN)
   @Delete(':id')
-  async deleteUser(@Param('id') id: number) {
-    return this.usersService.removeUser(id);
+  async deleteUser(@Param() param: IdDTO) {
+    return this.usersService.removeUser(param.id);
   }
 }
 

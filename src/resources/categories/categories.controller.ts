@@ -6,6 +6,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { Roles, RolesGuard } from 'src/guards/roles.guard';
 import { UserRole } from 'src/entities/enums/role.enum';
+import { IdDTO } from 'src/dto/id-param.dto';
 
 
 @UseGuards(AuthGuard, RolesGuard)
@@ -27,11 +28,11 @@ export class CategoriesController {
   @Patch(':id')
   @UseInterceptors(FileInterceptor('photo'))
   async updateCat(
-    @Param('id') id: number,
+    @Param() param: IdDTO,
     @Body() dto: UpdateCategoryDto,
     @UploadedFile() file?: Express.Multer.File
   ) {
-    return this.categoriesService.updateCategory(id, dto, file);
+    return this.categoriesService.updateCategory(param.id, dto, file);
   }
 
   @Roles(UserRole.USER, UserRole.ADMIN, UserRole.MANAGER)
@@ -41,13 +42,13 @@ export class CategoriesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoriesService.findOne(+id);
+  findOne(@Param() param: IdDTO) {
+    return this.categoriesService.findOne(param.id);
   }
 
   @Roles(UserRole.ADMIN)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.categoriesService.remove(+id);
+  remove(@Param() param: IdDTO) {
+    return this.categoriesService.remove(param.id);
   }
 }
