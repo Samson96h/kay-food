@@ -40,10 +40,10 @@ export class ProductsController {
   @UseInterceptors(FilesInterceptor('photos'))
   async updateCategory(
     @Body() dto: UpdateProductDto,
-    @Param('id') id: number,
+    @Param() param: IdDTO,
     @UploadedFiles() files?: Express.Multer.File[],
   ) {
-    return this.productsService.updateProductData(id, dto, files || [])
+    return this.productsService.updateProductData(param.id, dto, files || [])
   }
 
 
