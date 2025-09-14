@@ -1,15 +1,10 @@
-import { ConflictException, createParamDecorator, Injectable, NotFoundException } from '@nestjs/common';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+
+import { UpdateProductDto, CreateProductDto, CreateIngredientDTO } from './dto';
+import { Product, Ingredient, Category, MediaFiles } from '../../entities';
+import { FileHelper, PhotoValidator } from '../../helpers';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Product } from 'src/entities/products-entiti';
 import { Repository } from 'typeorm';
-import { Category } from 'src/entities/categories-entiti';
-import { MediaFiles } from 'src/entities/media-files';
-import { FileHelper } from 'src/helpers/file-helper';
-import { PhotoValidator } from 'src/helpers/photos-validator-helper';
-import { CreateIngredientDTO } from './dto/create-ingredient.dto';
-import { Ingredient } from 'src/entities/ingredients-entiti';
 
 @Injectable()
 export class ProductsService {

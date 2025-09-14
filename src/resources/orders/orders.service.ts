@@ -1,17 +1,16 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 
-import { Order } from 'src/entities/orders-entiti';
-import { Product } from 'src/entities/products-entiti';
-import { User } from 'src/entities/users-entiti';
-import { OrderItem } from 'src/entities/order-item';
+import { OrderItem, Order, Product, Ingredient, User } from '../../entities';
 import { OrderDto } from './dto/create-order.dto';
-import { Ingredient } from 'src/entities/ingredients-entiti';
 
 @Injectable()
 export class OrdersService {
   constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+
     @InjectRepository(Order)
     private readonly orderRepository: Repository<Order>,
 
@@ -25,7 +24,10 @@ export class OrdersService {
     private readonly ingredientRepository: Repository<Ingredient>,
   ) { }
 
-  async create(dto: OrderDto, user: User): Promise<Order> {
+  async create(dto: OrderDto, userId: number): Promise<Order> {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) throw new NotFoundException('User not found');
+
     const order = this.orderRepository.create({
       user,
       totalPrice: 0,
@@ -84,7 +86,7 @@ export class OrdersService {
 
   async findAll(): Promise<Order[]> {
     return await this.orderRepository.find({
-      relations: ['user','items.product', 'items.ingredients'],
+      relations: ['user', 'items.product', 'items.ingredients'],
     });
   }
 

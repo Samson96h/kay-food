@@ -1,16 +1,14 @@
-import { Module } from '@nestjs/common';
-import { OrdersService } from './orders.service';
-import { OrdersController } from './orders.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { OrderItem } from 'src/entities/order-item';
-import { Order } from 'src/entities/orders-entiti';
-import { Product } from 'src/entities/products-entiti';
-import { Ingredient } from 'src/entities/ingredients-entiti';
+import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
+
+import { OrderItem, Order, Product, Ingredient, User } from '../../entities';
+import { OrdersController } from './orders.controller';
+import { OrdersService } from './orders.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Order, Product, OrderItem,Ingredient]),
+    TypeOrmModule.forFeature([Order, Product, OrderItem,Ingredient, User]),
     JwtModule.register({})
   ],
   controllers: [OrdersController],

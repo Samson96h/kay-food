@@ -1,15 +1,15 @@
-import { Injectable } from '@nestjs/common';
 import { CreateAuthDTO } from './dto/create-auth.dto';
-import { CodeDTO } from './dto/check-code.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/entities/users-entiti';
-import { Repository } from 'typeorm';
-import { SecretCode } from 'src/entities/secret-code';
+import { CodeDTO } from './dto/check-code.dto';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
+import { Repository } from 'typeorm';
+
 import { IAuthEnticationResponse } from './models/autentication-response';
-import { createRandomCode } from 'src/helpers/code-helper';
 import { UserRole } from 'src/entities/enums/role.enum';
+import { User, SecretCode } from '../../entities';
+import { createRandomCode } from '../../helpers';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {

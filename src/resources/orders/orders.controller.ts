@@ -1,16 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
-import { OrdersService } from './orders.service';
-import { AuthGuard } from 'src/guards/auth.guard';
-import { Roles, RolesGuard } from 'src/guards/roles.guard';
-import { OrderDto } from './dto/create-order.dto';
-import { UserRole } from 'src/entities/enums/role.enum';
-import { AuthUser } from 'src/decorators/auth-user.decorator';
-import { IdDTO } from 'src/dto/id-param.dto';
+import { Controller, Get, Post, Body, Param, Delete, UseGuards } from '@nestjs/common';
 
-@UseGuards(AuthGuard,RolesGuard)
+import { AuthUser } from 'src/decorators/auth-user.decorator';
+import { Roles, RolesGuard, AuthGuard } from '../../guards';
+import { UserRole } from 'src/entities/enums/role.enum';
+import { OrderDto } from './dto/create-order.dto';
+import { OrdersService } from './orders.service';
+import { IdDTO } from 'src/dto/id-param.dto';
+import { IRequestUser } from '../auth/models/request-user';
+
+@UseGuards(AuthGuard, RolesGuard)
 @Controller('orders')
 export class OrdersController {
-  constructor(private readonly ordersService: OrdersService) {}
+  constructor(private readonly ordersService: OrdersService) { }
 
   @Roles(UserRole.ADMIN)
   @Get()
@@ -19,18 +20,19 @@ export class OrdersController {
   }
 
   @Post()
-  async addOrder(@Body() dto: OrderDto, @AuthUser() user: any) {
+  async addOrder(@Body() dto: OrderDto, @AuthUser() user: IRequestUser) {
     return this.ordersService.create(dto, user.id);
   }
 
+
   @Get('my')
-  async getMyOrders(@AuthUser() user: any) {
+  async getMyOrders(@AuthUser() user: IRequestUser) {
     return this.ordersService.findMyOrders(user.id);
   }
 
   @Roles(UserRole.ADMIN)
   @Delete(':id')
-  async deleteOrder(@Param() param :IdDTO ) {
+  async deleteOrder(@Param() param: IdDTO) {
     return this.ordersService.removeOrder(param.id);
   }
 

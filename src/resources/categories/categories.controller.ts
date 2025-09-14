@@ -1,10 +1,11 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors,UploadedFile, UseGuards } from '@nestjs/common';
-import { CategoriesService } from './categories.service';
-import { CreateCategoryDTO } from './dto/create-category.dto';
+
+
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { CreateCategoryDTO } from './dto/create-category.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { AuthGuard } from 'src/guards/auth.guard';
-import { Roles, RolesGuard } from 'src/guards/roles.guard';
+import { Roles, RolesGuard,AuthGuard } from '../../guards';
+import { CategoriesService } from './categories.service';
 import { UserRole } from 'src/entities/enums/role.enum';
 import { IdDTO } from 'src/dto/id-param.dto';
 
@@ -27,7 +28,7 @@ export class CategoriesController {
   @Roles(UserRole.ADMIN)
   @Patch(':id')
   @UseInterceptors(FileInterceptor('photo'))
-  async updateCat(
+  async updateCategories(
     @Param() param: IdDTO,
     @Body() dto: UpdateCategoryDto,
     @UploadedFile() file?: Express.Multer.File

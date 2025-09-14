@@ -1,13 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { UpdateUserDTO } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/entities/users-entiti';
 import { Repository } from 'typeorm';
-import { MediaFiles } from 'src/entities/media-files';
-import { PhotoValidator } from 'src/helpers/photos-validator-helper';
-import { FileHelper } from 'src/helpers/file-helper';
-import { UserRole } from 'src/entities/enums/role.enum';
+
+import { PhotoValidator, FileHelper } from '../../helpers';
+import { UpdateUserDTO } from './dto/update-user.dto';
 import { ChangeRoleDTO } from './dto/change-role.dto';
+import { User, MediaFiles, Product } from '../../entities';
 
 @Injectable()
 export class UsersService {
@@ -15,7 +13,9 @@ export class UsersService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     @InjectRepository(MediaFiles)
-    private readonly mediaRepository: Repository<MediaFiles>
+    private readonly mediaRepository: Repository<MediaFiles>,
+    @InjectRepository(Product)
+    private readonly productRepository: Repository<Product>,
   ) { }
 
 
@@ -57,9 +57,9 @@ export class UsersService {
     return { message: "user Deleted" }
   }
 
-  async chageRoles(id:number, dto: ChangeRoleDTO){
-  const user = await this.userRepository.findOne({where:{id}})
-    if(!user){
+  async chageRoles(id: number, dto: ChangeRoleDTO) {
+    const user = await this.userRepository.findOne({ where: { id } })
+    if (!user) {
       throw new NotFoundException('User not found')
     }
     user.roles = dto.role
@@ -67,9 +67,50 @@ export class UsersService {
 
   }
 
+  async addFavorite(userId: number, productId: number): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['favorites'],
+    });
+    if (!user) throw new NotFoundException('User not found');
 
+    const product = await this.productRepository.findOne({ where: { id: productId } });
+    if (!product) throw new NotFoundException('Product not found');
+
+    if (user.favorites.find((e) => e.id === product.id)) {
+      return user;
+    }
+    user.favorites.push(product);
+    return await this.userRepository.save(user);
+
+  }
+
+  async getFavorites(userId: number): Promise<Product[]> {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['favorites'],
+    });
+
+    if (user && user.favorites) {
+      return user.favorites;
+    } else {
+      return [];
+    }
+
+  }
+
+  async removeFavorite(userId: number, productId: number): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+      relations: ['favorites'],
+    });
+    if (!user) {
+      throw new NotFoundException('User not found')
+    };
+
+    user.favorites = user.favorites.filter((e) => e.id !== productId);
+
+    return await this.userRepository.save(user);
+  }
 
 }
-
-
-

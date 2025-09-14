@@ -1,14 +1,13 @@
-import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UsersController } from './users.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Category } from 'src/entities/categories-entiti';
-import { MediaFiles } from 'src/entities/media-files';
-import { User } from 'src/entities/users-entiti';
+import { Module } from '@nestjs/common';
+
+import { Category, MediaFiles, Product, User } from '../../entities';
+import { UsersController } from './users.controller';
 import { AuthModule } from '../auth/auth.module';
+import { UsersService } from './users.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Category, User, MediaFiles]),
+  imports: [TypeOrmModule.forFeature([Category, User, MediaFiles, Product]),
     AuthModule],
   controllers: [UsersController],
   providers: [UsersService],

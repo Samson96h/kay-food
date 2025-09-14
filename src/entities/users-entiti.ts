@@ -2,7 +2,7 @@ import { Column, Entity, JoinTable, ManyToMany, OneToMany } from "typeorm";
 import { Base } from "./base";
 import { UserRole } from "./enums/role.enum";
 import { MediaFiles } from "./media-files";
-import { Order } from "./orders-entiti";
+import { Order, Product } from "./index";
 
 @Entity('users')
 export class User extends Base {
@@ -28,6 +28,10 @@ export class User extends Base {
     inverseJoinColumn: { name: 'media_file_id', referencedColumnName: 'id' },
   })
   mediaFiles: MediaFiles[]
+
+  @ManyToMany(() => Product, { eager: true })
+  @JoinTable({ name: 'user_favorites' })
+  favorites: Product[];
 
   secretCodes: any;
 

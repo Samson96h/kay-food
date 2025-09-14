@@ -1,23 +1,18 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { CategoriesModule } from './resources/categories/categories.module';
-import { AuthModule } from './resources/auth/auth.module';
-import { ProductsModule } from './resources/products/products.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { join } from 'path';
+import { Module } from '@nestjs/common';
+
+import { User, Product, Order, Category, SecretCode, MediaFiles, Ingredient, OrderItem } from './entities';
+import { CategoriesModule } from './resources/categories/categories.module';
+import { ProductsModule } from './resources/products/products.module';
 import { OrdersModule } from './resources/orders/orders.module';
-import { User } from './entities/users-entiti';
-import { Product } from './entities/products-entiti';
-import { Order } from './entities/orders-entiti';
-import { Category } from './entities/categories-entiti';
-import { SecretCode } from './entities/secret-code';
-import { MediaFiles } from './entities/media-files';
 import { UsersModule } from './resources/users/users.module';
-import { Ingredient } from './entities/ingredients-entiti';
-import { OrderItem } from './entities/order-item';
+import { AuthModule } from './resources/auth/auth.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { join } from 'path';
+import { ZonesModule } from './resources/zones/zones.module';
 
 @Module({
   imports: [
@@ -44,7 +39,8 @@ import { OrderItem } from './entities/order-item';
     OrdersModule,
     ProductsModule,
     CategoriesModule,
-    UsersModule
+    UsersModule,
+    ZonesModule
   ],
   controllers: [AppController],
   providers: [AppService],

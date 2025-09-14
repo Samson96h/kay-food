@@ -1,9 +1,10 @@
-import { NestFactory, Reflector } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import { NestFactory, Reflector } from '@nestjs/core';
 import 'dotenv/config';
+
+import { AppModule } from './app.module';
 import { Request } from 'express';
-import { User } from './entities/users-entiti';
+import { User } from './entities';
 
 export interface AuthRequest extends Request {
   user: User;
@@ -16,6 +17,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.useGlobalPipes(new ValidationPipe({
     transform: true,
+    whitelist: true,
     transformOptions: {
       enableImplicitConversion: true,
     },

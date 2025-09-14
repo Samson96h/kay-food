@@ -1,7 +1,9 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne } from "typeorm";
-import { Base } from "./base";
+
 import { Category } from "./categories-entiti";
 import { MediaFiles } from "./media-files";
+import { User } from "./index";
+import { Base } from "./base";
 
 @Entity('products')
 export class Product extends Base {
@@ -28,5 +30,8 @@ export class Product extends Base {
         inverseJoinColumn: { name: 'media_file_id', referencedColumnName: 'id' },
     })
     mediaFiles: MediaFiles[];
+
+    @ManyToMany(() => User, (user) => user.favorites)
+    likedBy: User[];
 
 }
