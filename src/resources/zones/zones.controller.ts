@@ -9,13 +9,14 @@ import { IdDTO } from 'src/dto/id-param.dto';
 @UseGuards(AuthGuard, RolesGuard)
 @Controller('zones')
 export class ZonesController {
-  constructor(private readonly zonesService: ZonesService) {}
+  constructor(private readonly zonesService: ZonesService) { }
 
   @Roles(UserRole.ADMIN)
   @Post()
-  async create(@Body() createZoneDto: CreateZoneDTO) {
-    return this.zonesService.createZone(createZoneDto);
+  async create(@Body() dto: CreateZoneDTO) {
+    return this.zonesService.createZone(dto);
   }
+
 
   @Get()
   findAll() {
@@ -23,17 +24,19 @@ export class ZonesController {
   }
 
   @Get(':id')
-  findOne(@Param() param : IdDTO) {
+  findOne(@Param() param: IdDTO) {
     return this.zonesService.findOne(param.id);
   }
 
+  @Roles(UserRole.ADMIN)
   @Patch(':id')
-  update(@Param() param : IdDTO, @Body() updateZoneDto: UpdateZoneDTO) {
+  update(@Param() param: IdDTO, @Body() updateZoneDto: UpdateZoneDTO) {
     return this.zonesService.updateZone(param.id, updateZoneDto);
   }
 
+  @Roles(UserRole.ADMIN)
   @Delete(':id')
-  remove(@Param() param : IdDTO) {
+  remove(@Param() param: IdDTO) {
     return this.zonesService.removeZone(param.id);
   }
 }

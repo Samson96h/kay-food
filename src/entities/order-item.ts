@@ -23,6 +23,9 @@ export class OrderItem extends Base {
   @Column()
   quantity: number;
 
+  @Column({ default: false, nullable:true })
+  delivery: boolean;
+
   @Column('decimal', { precision: 10, scale: 2 , nullable:true},)
   price: number;
 }

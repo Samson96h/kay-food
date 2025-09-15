@@ -1,9 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 
-import { OrderItem, Order, Product, Ingredient, User } from '../../entities';
+import { OrderItem, Order, Product, Ingredient, User, Zone } from '../../entities';
 import { OrderDto } from './dto/create-order.dto';
+const inside = require('point-in-polygon');
+
 
 @Injectable()
 export class OrdersService {
@@ -22,6 +24,9 @@ export class OrdersService {
 
     @InjectRepository(Ingredient)
     private readonly ingredientRepository: Repository<Ingredient>,
+
+    @InjectRepository(Zone)
+    private readonly zoneRepository: Repository<Zone>,
   ) { }
 
   async create(dto: OrderDto, userId: number): Promise<Order> {
@@ -33,6 +38,31 @@ export class OrdersService {
       totalPrice: 0,
       items: [],
     });
+
+    let deliveryFee = 0;
+
+
+    const delivery = dto.delivery ?? false;
+
+    if (delivery) {
+      if (dto.x == null || dto.y == null) {
+        throw new BadRequestException('Для доставки нужны координаты');
+      }
+
+      const zones = await this.zoneRepository.find();
+      const point = [dto.x, dto.y];
+
+      const inZone = zones.some(zone =>
+        inside(point, zone.perimeter.map(p => [p.x, p.y]))
+      );
+
+      if (!inZone) {
+        throw new BadRequestException('Delivery to this area is not available.');
+      }
+
+      deliveryFee = 300;
+    }
+
 
     for (const item of dto.items) {
       const product = await this.productRepository.findOne({
@@ -65,15 +95,17 @@ export class OrdersService {
         ingredients,
         quantity: item.quantity,
         price: itemPrice,
+        delivery: dto.delivery,
       });
 
       order.items.push(orderItem);
     }
 
-    order.totalPrice = order.items.reduce((sum, i) => sum + i.price, 0);
+    order.totalPrice = order.items.reduce((sum, i) => sum + i.price, 0) + deliveryFee;
 
     return await this.orderRepository.save(order);
   }
+
 
 
   async findMyOrders(id: number): Promise<Order[]> {

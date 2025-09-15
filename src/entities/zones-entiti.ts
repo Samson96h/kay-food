@@ -1,9 +1,11 @@
-import { Entity } from "typeorm";
+import { Column, Entity } from "typeorm";
 import { Base } from "./base";
 
 @Entity('zones')
 export class Zone extends Base {
-    name: string
+    @Column()
+    name: string;
 
-    perimeter: []
+    @Column('jsonb')
+    perimeter: { x: number; y: number }[];
 }

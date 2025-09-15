@@ -16,7 +16,7 @@ export class ZonesService {
   ) { }
 
   async createZone(dto: CreateZoneDTO): Promise<Zone> {
-    const zone = await this.zoneRepository.find({ where: { name: dto.name } })
+    const zone = await this.zoneRepository.findOne({ where: { name: dto.name } })
 
     if (zone) {
       throw new ConflictException('Zone with this name already exists')

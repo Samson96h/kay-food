@@ -1,11 +1,14 @@
-import { IsArray, IsNotEmpty, IsString } from "class-validator";
+import { IsString, IsArray, ValidateNested } from 'class-validator';
+import { Point } from '../models/location';
+import { Type } from 'class-transformer';
+
 
 export class CreateZoneDTO {
-    @IsNotEmpty()
-    @IsString()
-    name: string
+  @IsString()
+  name: string;
 
-    @IsNotEmpty()
-    @IsArray()
-    perimeter: []
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => Point)
+  perimeter: Point[];
 }
