@@ -42,11 +42,9 @@ export class OrdersService {
     let deliveryFee = 0;
 
 
-    const delivery = dto.delivery ?? false;
-
-    if (delivery) {
+    if (dto.delivery) {
       if (dto.x == null || dto.y == null) {
-        throw new BadRequestException('Для доставки нужны координаты');
+        throw new BadRequestException('Coordinates are required for delivery');
       }
 
       const zones = await this.zoneRepository.find();
@@ -95,7 +93,7 @@ export class OrdersService {
         ingredients,
         quantity: item.quantity,
         price: itemPrice,
-        delivery: dto.delivery,
+        delivery: dto.delivery || false,
       });
 
       order.items.push(orderItem);

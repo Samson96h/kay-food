@@ -6,7 +6,7 @@ import { UserRole } from 'src/entities/enums/role.enum';
 import { OrderDto } from './dto/create-order.dto';
 import { OrdersService } from './orders.service';
 import { IdDTO } from 'src/dto/id-param.dto';
-import { IRequestUser } from '../auth/models/request-user';
+import { IRequestUser } from '../users/models/request-user';
 
 @UseGuards(AuthGuard, RolesGuard)
 @Controller('orders')

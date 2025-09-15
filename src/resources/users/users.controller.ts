@@ -8,7 +8,7 @@ import { ChangeRoleDTO } from './dto/change-role.dto';
 import { UsersService } from './users.service';
 import { IdDTO } from 'src/dto/id-param.dto';
 import { AuthUser } from 'src/decorators/auth-user.decorator';
-import { IRequestUser } from '../auth/models/request-user';
+import { IRequestUser } from './models/request-user';
 
 
 
@@ -51,7 +51,7 @@ export class UsersController {
   @Post('favorites/:id')
   async addFavorite(
     @AuthUser() user: IRequestUser,
-    @Param() param: IdDTO,   // <-- теперь Nest правильно обернёт { productId: "2" } → IdDTO
+    @Param() param: IdDTO,
   ) {
     return this.usersService.addFavorite(user.id, param.id);
   }

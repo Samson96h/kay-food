@@ -1,4 +1,4 @@
-import { IsInt, IsArray, ValidateNested, Min, IsBoolean, IsNumber } from 'class-validator';
+import { IsInt, IsArray, ValidateNested, Min, IsBoolean, IsNumber, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class OrderItemDto {
@@ -21,11 +21,14 @@ export class OrderDto {
   items: OrderItemDto[];
 
   @IsBoolean()
+  @IsOptional()
   delivery?: boolean;
 
+  @IsOptional()
   @IsNumber()
   x?: number;
 
+  @IsOptional()
   @IsNumber()
   y?: number;
 }

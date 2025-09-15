@@ -1,6 +1,5 @@
 import { IsString, IsArray, ValidateNested } from 'class-validator';
 import { Point } from '../models/location';
-import { Type } from 'class-transformer';
 
 
 export class CreateZoneDTO {
@@ -9,6 +8,5 @@ export class CreateZoneDTO {
 
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => Point)
   perimeter: Point[];
 }
