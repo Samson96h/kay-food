@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany } from "typeorm";
-import { Base } from "./base";
-import { MediaFiles } from "./media-files";
+
+import { MediaFiles, Base } from "./index";
+
 
 @Entity('categories')
 export class Category extends Base {

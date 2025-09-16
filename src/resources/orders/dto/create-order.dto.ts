@@ -1,6 +1,7 @@
 import { IsInt, IsArray, ValidateNested, Min, IsBoolean, IsNumber, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 
+
 export class OrderItemDto {
   @IsInt()
   productId: number;

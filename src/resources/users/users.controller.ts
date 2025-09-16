@@ -1,15 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFiles } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 import { Roles, RolesGuard, AuthGuard, OwnerCheckGuard } from '../../guards';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { AuthUser } from 'src/decorators/auth-user.decorator';
 import { UserRole } from 'src/entities/enums/role.enum';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { ChangeRoleDTO } from './dto/change-role.dto';
+import { IRequestUser } from './models/request-user';
 import { UsersService } from './users.service';
 import { IdDTO } from 'src/dto/id-param.dto';
-import { AuthUser } from 'src/decorators/auth-user.decorator';
-import { IRequestUser } from './models/request-user';
-
 
 
 @UseGuards(AuthGuard, RolesGuard)

@@ -4,7 +4,8 @@ import { Repository } from 'typeorm';
 
 import { CreateZoneDTO } from './dto/create-zone.dto';
 import { UpdateZoneDTO } from './dto/update-zone.dto';
-import { Zone } from 'src/entities';
+import { Zone } from '../../entities';
+
 
 @Injectable()
 export class ZonesService {

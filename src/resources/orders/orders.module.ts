@@ -6,6 +6,7 @@ import { OrderItem, Order, Product, Ingredient, User, Zone } from '../../entitie
 import { OrdersController } from './orders.controller';
 import { OrdersService } from './orders.service';
 
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([Order, Product, OrderItem,Ingredient, User, Zone]),

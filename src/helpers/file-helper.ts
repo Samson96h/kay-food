@@ -1,5 +1,6 @@
-import * as fs from 'fs';
 import * as path from 'path';
+import * as fs from 'fs';
+
 
 export class FileHelper {
     static saveFile(file: Express.Multer.File, folder: string) {

@@ -3,10 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { AuthGuard } from '../../guards';
 import { SecretCode, User } from '../../entities';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
+import { AuthGuard } from '../../guards';
+
 
 @Module({
   imports: [

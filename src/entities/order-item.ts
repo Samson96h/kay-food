@@ -1,8 +1,7 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from "typeorm";
-import { Base } from "./base";
-import { Order } from "./orders-entiti";
-import { Product } from "./products-entiti";
-import { Ingredient } from "./ingredients-entiti";
+
+import { Order, Product, Ingredient, Base } from "./index";
+
 
 @Entity('order_items')
 export class OrderItem extends Base {

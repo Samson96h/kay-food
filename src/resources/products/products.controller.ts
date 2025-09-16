@@ -1,9 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFiles, UseInterceptors, UseGuards } from '@nestjs/common';
-
-import { CreateIngredientDTO } from './dto/create-ingredient.dto';
-import { CreateProductDto } from './dto/create-product.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { UpdateProductDto } from './dto/update-product.dto';
+
+import { CreateProductDto, UpdateProductDto, CreateIngredientDTO } from './dto';
 import { Roles, RolesGuard,AuthGuard } from '../../guards';
 import { UserRole } from 'src/entities/enums/role.enum';
 import { ProductsService } from './products.service';

@@ -1,10 +1,11 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 import { UpdateProductDto, CreateProductDto, CreateIngredientDTO } from './dto';
 import { Product, Ingredient, Category, MediaFiles } from '../../entities';
 import { FileHelper, PhotoValidator } from '../../helpers';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+
 
 @Injectable()
 export class ProductsService {

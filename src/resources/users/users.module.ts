@@ -6,6 +6,7 @@ import { UsersController } from './users.controller';
 import { AuthModule } from '../auth/auth.module';
 import { UsersService } from './users.service';
 
+
 @Module({
   imports: [TypeOrmModule.forFeature([Category, User, MediaFiles, Product]),
     AuthModule],

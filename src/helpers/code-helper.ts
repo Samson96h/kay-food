@@ -1,3 +1,3 @@
-export function createRandomCode():number{
+export function createRandomCode(): number {
     return Math.floor(100000 + Math.random() * 900000);
 }

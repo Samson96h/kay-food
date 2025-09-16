@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { PhotoValidator, FileHelper } from '../../helpers';
+import { User, MediaFiles, Product } from '../../entities';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { ChangeRoleDTO } from './dto/change-role.dto';
-import { User, MediaFiles, Product } from '../../entities';
 
 @Injectable()
 export class UsersService {

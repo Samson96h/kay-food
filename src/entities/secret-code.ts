@@ -1,6 +1,7 @@
-import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { User } from './users-entiti';
-import { Base } from './base';
+import { Entity, Column, ManyToOne } from 'typeorm';
+
+import { User, Base } from './index';
+
 
 @Entity()
 export class SecretCode extends Base {

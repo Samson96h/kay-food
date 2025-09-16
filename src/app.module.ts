@@ -8,11 +8,12 @@ import { CategoriesModule } from './resources/categories/categories.module';
 import { ProductsModule } from './resources/products/products.module';
 import { OrdersModule } from './resources/orders/orders.module';
 import { UsersModule } from './resources/users/users.module';
+import { ZonesModule } from './resources/zones/zones.module';
 import { AuthModule } from './resources/auth/auth.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { join } from 'path';
-import { ZonesModule } from './resources/zones/zones.module';
+
 
 @Module({
   imports: [
@@ -31,10 +32,10 @@ import { ZonesModule } from './resources/zones/zones.module';
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [User, Product, Order, Category, SecretCode, MediaFiles,Ingredient,Order,OrderItem, Zone],
+      entities: [User, Product, Order, Category, SecretCode, MediaFiles, Ingredient, Order, OrderItem, Zone],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([User, Product, Order, Category, SecretCode, MediaFiles,Ingredient,OrderItem,Order, Zone]),
+    TypeOrmModule.forFeature([User, Product, Order, Category, SecretCode, MediaFiles, Ingredient, OrderItem, Order, Zone]),
     AuthModule,
     OrdersModule,
     ProductsModule,
@@ -45,4 +46,4 @@ import { ZonesModule } from './resources/zones/zones.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

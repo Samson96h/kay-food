@@ -1,5 +1,5 @@
 export interface IAuthEnticationResponse {
-    accessToken?:string,
-    code?:string,
-    message?:string
+    accessToken?: string,
+    code?: string,
+    message?: string
 }

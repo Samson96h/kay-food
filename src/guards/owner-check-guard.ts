@@ -1,10 +1,6 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  ForbiddenException,
-  Injectable,
-} from '@nestjs/common';
+import {CanActivate,ExecutionContext,ForbiddenException,Injectable,} from '@nestjs/common';
 import { UserRole } from 'src/entities/enums/role.enum';
+
 
 @Injectable()
 export class OwnerCheckGuard implements CanActivate {

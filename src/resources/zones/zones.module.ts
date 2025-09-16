@@ -1,10 +1,11 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
 
 import { ZonesController } from './zones.controller';
 import { ZonesService } from './zones.service';
-import { Zone } from 'src/entities';
-import { JwtModule } from '@nestjs/jwt';
+import { Zone } from '../../entities';
+
 
 @Module({
   imports: [TypeOrmModule.forFeature([Zone]),

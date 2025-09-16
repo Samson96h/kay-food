@@ -1,4 +1,5 @@
 import { IsString, IsArray, ValidateNested } from 'class-validator';
+
 import { Point } from '../models/location';
 
 

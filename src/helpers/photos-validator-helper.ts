@@ -1,5 +1,6 @@
 import { BadRequestException } from "@nestjs/common";
 
+
 export class PhotoValidator {
     static validator(file: Express.Multer.File) {
         const MAX_SIZE = 5 * 1024 * 1024;

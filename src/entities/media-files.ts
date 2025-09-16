@@ -1,5 +1,7 @@
 import { Column, Entity } from "typeorm";
-import { Base } from "./base";
+
+import { Base } from "./index";
+
 
 @Entity("media_files")
 export class MediaFiles extends Base {

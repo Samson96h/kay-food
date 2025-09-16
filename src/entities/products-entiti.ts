@@ -1,9 +1,7 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne } from "typeorm";
 
-import { Category } from "./categories-entiti";
-import { MediaFiles } from "./media-files";
-import { User } from "./index";
-import { Base } from "./base";
+import { User, Category, MediaFiles, Base } from "./index";
+
 
 @Entity('products')
 export class Product extends Base {

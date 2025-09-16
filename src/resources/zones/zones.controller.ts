@@ -1,10 +1,12 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
-import { ZonesService } from './zones.service';
-import { CreateZoneDTO } from './dto/create-zone.dto';
-import { UpdateZoneDTO } from './dto/update-zone.dto';
+
 import { AuthGuard, Roles, RolesGuard } from 'src/guards';
 import { UserRole } from 'src/entities/enums/role.enum';
+import { CreateZoneDTO } from './dto/create-zone.dto';
+import { UpdateZoneDTO } from './dto/update-zone.dto';
+import { ZonesService } from './zones.service';
 import { IdDTO } from 'src/dto/id-param.dto';
+
 
 @UseGuards(AuthGuard, RolesGuard)
 @Controller('zones')
