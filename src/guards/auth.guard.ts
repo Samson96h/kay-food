@@ -1,5 +1,6 @@
 import {CanActivate,ExecutionContext,Injectable,UnauthorizedException,} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { JwtPayload } from './models/jwt-payload.model';
 
 
 @Injectable()
@@ -14,13 +15,13 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException('You are not authorized, please login');
     }
 
-    const [bearer, token] = authHeader.split(' ');
+    const [bearer, token] = authHeader.trim().split(' ');
 
-    if (bearer !== 'Bearer' || !token) {
+    if (bearer.toLowerCase() !== 'bearer' || !token) {
       throw new UnauthorizedException('Invalid authorization header format');
     }
 
-    let payload: any;
+    let payload: JwtPayload;
     try {
       payload = this.jwtService.verify(token, {
         secret: process.env.JWT_SECRET,
