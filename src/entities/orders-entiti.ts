@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
 
-import { User, OrderItem, Base } from "./index";
+import { User, OrderItem } from "./index";
+import { Base } from "./base";
 
 
 @Entity('orders')

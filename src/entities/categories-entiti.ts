@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany } from "typeorm";
 
-import { MediaFiles, Base } from "./index";
+import { MediaFiles } from "./index";
+import { Base } from "./base";
 
 
 @Entity('categories')

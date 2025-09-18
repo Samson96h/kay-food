@@ -1,7 +1,8 @@
 import { Column, Entity, JoinTable, ManyToMany, OneToMany } from "typeorm";
 
-import { Order, Product, MediaFiles, Base } from "./index";
+import { Order, Product, MediaFiles } from "./index";
 import { UserRole } from "./enums/role.enum";
+import { Base } from "./base";
 
 
 @Entity('users')

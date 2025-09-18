@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne } from "typeorm";
 
-import { User, Category, MediaFiles, Base } from "./index";
+import { User, Category, MediaFiles } from "./index";
+import { Base } from "./base";
 
 
 @Entity('products')

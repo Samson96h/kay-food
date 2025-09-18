@@ -1,6 +1,7 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from "typeorm";
 
-import { Order, Product, Ingredient, Base } from "./index";
+import { Order, Product, Ingredient } from "./index";
+import { Base } from "./base";
 
 
 @Entity('order_items')

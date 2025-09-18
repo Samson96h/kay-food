@@ -1,6 +1,7 @@
 import { Entity, Column, ManyToOne } from 'typeorm';
 
-import { User, Base } from './index';
+import { User } from './index';
+import { Base } from './base';
 
 
 @Entity()
