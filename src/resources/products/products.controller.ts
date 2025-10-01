@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFiles, UseInterceptors, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFiles, UseInterceptors, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 
 import { CreateProductDto, UpdateProductDto, CreateIngredientDTO } from './dto';
@@ -33,6 +33,7 @@ export class ProductsController {
     return this.productsService.findOne(param.id);
   }
 
+  
   @Roles(UserRole.ADMIN, UserRole.USER)
   @Patch(":id")
   @UseInterceptors(FilesInterceptor('photos'))

@@ -2,6 +2,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
+import { join } from 'path';
 
 import { User, Product, Order, Category, SecretCode, MediaFiles, Ingredient, OrderItem, Zone } from './entities';
 import { CategoriesModule } from './resources/categories/categories.module';
@@ -12,7 +13,6 @@ import { ZonesModule } from './resources/zones/zones.module';
 import { AuthModule } from './resources/auth/auth.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { join } from 'path';
 
 
 @Module({
