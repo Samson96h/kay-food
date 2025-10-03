@@ -5,6 +5,9 @@ import 'dotenv/config';
 import { AppModule } from './app.module';
 import { Request } from 'express';
 import { User } from './entities';
+import * as crypto from 'crypto';
+
+(global as any).crypto = crypto;
 
 export interface AuthRequest extends Request {
   user: User;

@@ -10,9 +10,11 @@ import { UserRole } from 'src/entities/enums/role.enum';
 import { User, SecretCode } from '../../entities';
 import { createRandomCode } from '../../helpers';
 import { ConfigService } from '@nestjs/config';
+import { IJWTConfig } from 'src/models';
 
 @Injectable()
 export class AuthService {
+  private jwtConfig: IJWTConfig;
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -20,7 +22,9 @@ export class AuthService {
     private readonly secretRepository: Repository<SecretCode>,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
-  ) { }
+  ) {
+    this.jwtConfig = this.configService.get("JWT_CONFIG") as IJWTConfig
+   }
 
   async loginOrRegister(dto: CreateAuthDTO): Promise<IAuthEnticationResponse> {
     const { phone } = dto;
@@ -37,7 +41,7 @@ export class AuthService {
 
     const tempToken = this.jwtService.sign(
       { sub: user.id, phone: user.phone, role: UserRole, temp: true }, {
-      secret: this.configService.get<string>('JWT_TEMP_SECRET'),
+      secret: this.jwtConfig.tempSecret,
       expiresIn: '10m',
     },
     );
@@ -68,7 +72,7 @@ export class AuthService {
 
     const accessToken = this.jwtService.sign(
       { sub: user.id, phone: user.phone, role: existing.user.roles }, {
-      secret: this.configService.get<string>('JWT_SECRET'),
+      secret: this.jwtConfig.secret,
       expiresIn: '1d',
     },
     );

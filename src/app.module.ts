@@ -1,6 +1,6 @@
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { join } from 'path';
 
@@ -12,7 +12,10 @@ import { UsersModule } from './resources/users/users.module';
 import { ZonesModule } from './resources/zones/zones.module';
 import { AuthModule } from './resources/auth/auth.module';
 import { AppController } from './app.controller';
+import { validationSchema } from './validation';
+import { jwtConfig, dbConfig } from './configs';
 import { AppService } from './app.service';
+import { IDBConfig } from 'src/models';
 
 
 @Module({
@@ -23,17 +26,26 @@ import { AppService } from './app.service';
     }),
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env'
+      envFilePath: '.env',
+      validationSchema: validationSchema,
+      load: [jwtConfig, dbConfig],
     }),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.DATABASE_HOST,
-      port: +(process.env.DATABASE_PORT as string),
-      username: process.env.DATABASE_USER,
-      password: process.env.DATABASE_PASSWORD,
-      database: process.env.DATABASE_NAME,
-      entities: [User, Product, Order, Category, SecretCode, MediaFiles, Ingredient, Order, OrderItem, Zone],
-      synchronize: true,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService : ConfigService) => {
+        const dbConfig: IDBConfig = configService.get("DB_CONFIG") as IDBConfig;
+        return {
+          type: 'postgres',
+          host: dbConfig.host,
+          port: dbConfig.port,
+          username: dbConfig.username,
+          password: dbConfig.password,
+          database: dbConfig.database,
+          entities: [User, Product, Order, Category, SecretCode, MediaFiles, Ingredient, OrderItem, Zone],
+          synchronize: true,
+        }
+      }
     }),
     TypeOrmModule.forFeature([User, Product, Order, Category, SecretCode, MediaFiles, Ingredient, OrderItem, Order, Zone]),
     AuthModule,
